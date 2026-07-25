@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gross Code Relay-BP Decoder — Fabric View</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="sidenav">
+    <div class="nav-title">Views · top-down</div>
+    <a href="timing.html">Timing / window<span class="desc">control loop · latency budget</span></a>
+    <a href="index.html">Decoding graph<span class="desc">72 CNUs · 144 VNUs · edges</span></a>
+    <a href="floorplan.html">VU19P floorplan<span class="desc">12 cycles · 4 SLRs</span></a>
+    <a href="fabric.html" class="active">Fabric / CLBs<span class="desc">one region at CLB level</span></a>
+  </nav>
+  <header>
+    <h1>[[144,12,12]] gross code decoder — fabric view</h1>
+    <p class="subtitle">One syndrome-cycle region from the floorplan, zoomed down to CLB granularity. Colors show what each CLB implements, in the LUT-share proportions of paper Table 1. One CNU and its 6 VNU neighbors are highlighted.</p>
+    <p class="crosslink">See also: <a href="index.html">index.html</a> — decoding-graph view · <a href="floorplan.html">floorplan.html</a> — VU19P floorplan view</p>
+  </header>
+
+  <div class="controls">
+    <button id="play">Pause</button>
+    <button id="reset">Reset</button>
+    <label class="toggle">
+      <input type="checkbox" id="highlightCNU" checked>
+      <span>Highlight one CNU</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="showInternals">
+      <span>Show CNU internals</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="showTraces" checked>
+      <span>Show pulse traces</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="autoRotate">
+      <span>Auto-rotate</span>
+    </label>
+    <div class="readout">
+      <span class="label">Region LUTs</span><span class="value">≈175.6K</span>
+      <span class="label">Region CLBs</span><span id="clbCount" class="value">—</span>
+      <span class="label">Per CNU</span><span id="cnuClb" class="value">—</span>
+      <span class="label">Weight</span><span class="value">6</span>
+    </div>
+  </div>
+
+  <div id="scene">
+    <div class="legend">
+      <div class="row"><span class="dot" style="background:#D85A30;"></span><span class="dot" style="background:#7F77DD;"></span>VNU logic — 67.2% of LUTs</div>
+      <div class="row"><span class="dot" style="background:#1D9E75;"></span>CNU logic — 22.6% of LUTs</div>
+      <div class="row"><span class="dot" style="background:#4a5568;"></span>Other BP / FSM / routing — 10.2%</div>
+      <div class="row"><span class="dot" style="background:#5DCAA5; border:1px solid #e6ecf5;"></span>Bright clusters = 1 CNU + its 6 VNU neighbors</div>
+      <div class="row"><span class="dot" style="background:linear-gradient(90deg,#5DCAA5,#F0997B); height:2px;"></span>Traces = weight-6 messages (µ out, ν back)</div>
+    </div>
+    <div class="hint">Drag to rotate · right-drag to pan · scroll to zoom at cursor · click the bright CNU cluster for internals</div>
+  </div>
+
+  <footer>
+    <p>
+      Real numbers (paper Table 1): 2,106,738 LUTs for the full decoder — so <code>≈175.6K LUTs</code> per
+      syndrome-cycle region (÷12), with VNUs taking 67.2% and CNUs 22.6% — weight-6 checks, 4 ns FPGA clock.
+      The CNU internals labels (XOR tree, dual min-finder tree, α scaler) are the blocks of paper Figure 3a.
+    </p>
+    <p>
+      <strong>Illustrative numbers:</strong> the CLB grid, per-region CLB count, and per-CNU / per-VNU cluster
+      sizes are proportional estimates derived from the Table 1 LUT-share percentages, not measured placements.
+      (UltraScale+ CLBs typically bundle 8 LUT6s, but no per-unit CLB count is published in the paper.)
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="fabric.js"></script>
+</body>
+</html>

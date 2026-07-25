@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gross Code Relay-BP Decoder — Timing View</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="sidenav">
+    <div class="nav-title">Views · top-down</div>
+    <a href="timing.html" class="active">Timing / window<span class="desc">control loop · latency budget</span></a>
+    <a href="index.html">Decoding graph<span class="desc">72 CNUs · 144 VNUs · edges</span></a>
+    <a href="floorplan.html">VU19P floorplan<span class="desc">12 cycles · 4 SLRs</span></a>
+    <a href="fabric.html">Fabric / CLBs<span class="desc">one region at CLB level</span></a>
+  </nav>
+  <header>
+    <h1>[[144,12,12]] gross code decoder — timing &amp; sliding window</h1>
+    <p class="subtitle">Why 24 ns per BP iteration matters: a 480 ns window decode against the QPU's 1 µs syndrome cadence, and the W=12 sliding window that feeds it. Based on Sections 1, 4.1, 7 and Appendix D of arXiv:2510.21600.</p>
+    <p class="crosslink">See also: <a href="index.html">index.html</a> — decoding-graph view · <a href="floorplan.html">floorplan.html</a> — VU19P floorplan · <a href="fabric.html">fabric.html</a> — CLB-level fabric</p>
+  </header>
+
+  <div class="controls">
+    <button id="play">Pause</button>
+    <button id="reset">Reset</button>
+    <label class="toggle">
+      <span>Speed</span>
+      <input type="range" id="speed" min="0" max="3" step="1" value="2">
+      <span id="speedLabel" class="value">100×</span>
+    </label>
+    <div class="readout">
+      <span class="label">t</span><span id="simTime" class="value">0.000 µs</span>
+      <span class="label">Window</span><span id="winIdx" class="value">1 / 4</span>
+      <span class="label">Iteration</span><span id="iterIdx" class="value">idle</span>
+    </div>
+  </div>
+
+  <div id="scene">
+    <div class="legend">
+      <div class="row"><span class="dot" style="background:#5DCAA5;"></span>QPU syndrome extraction — 1 µs cadence</div>
+      <div class="row"><span class="dot" style="background:#9AA4B3;"></span>Detector window processing (latency illustrative)</div>
+      <div class="row"><span class="dot" style="background:#1D9E75;"></span><span class="dot" style="background:#D85A30;"></span>Relay-BP iterations — 24 ns each (CNU→VNU / VNU→CNU halves)</div>
+      <div class="row"><span class="dot" style="background:#7F77DD;"></span>Logical Pauli frame update</div>
+      <div class="row"><span class="dot" style="background:#1D9E75;"></span>Commit region (C = 6, illustrative)</div>
+      <div class="row"><span class="dot" style="background:#7F77DD;"></span>Carry region (W − C = 6)</div>
+    </div>
+    <div class="hint">Drag to rotate · right-drag to pan · scroll to zoom at cursor</div>
+  </div>
+
+  <footer>
+    <p>
+      Paper numbers: 1 µs syndrome cadence (Section 1), 24 ns per BP iteration and ~20 iterations average to
+      converge at p = 10⁻³ (Section 7, Figure 8b), so <code>480 ns</code> per 12-cycle window decode —
+      ~40 ns average per syndrome cycle — on a 4 ns FPGA clock with 12 ns decoder cycles (Figure 5).
+      The decode finishes ≈520 ns before the next syndrome batch arrives: the decoder keeps up with the QPU
+      with margin to spare, the paper's headline real-time claim.
+    </p>
+    <p>
+      The sliding window (bottom) uses W = 12, fixed to the bare code distance (Section 4.1). The commit/carry
+      split C = 6 is illustrative — any 1 ≤ C &lt; W is valid and the paper doesn't fix it (Section 4.1,
+      Appendix D, Algorithm 2). The detector-processing latency in the second lane is also illustrative.
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="timing.js"></script>
+</body>
+</html>

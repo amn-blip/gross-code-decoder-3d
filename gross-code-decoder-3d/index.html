@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gross Code Relay-BP Decoder — 3D Structural View</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="sidenav">
+    <div class="nav-title">Views · top-down</div>
+    <a href="timing.html">Timing / window<span class="desc">control loop · latency budget</span></a>
+    <a href="index.html" class="active">Decoding graph<span class="desc">72 CNUs · 144 VNUs · edges</span></a>
+    <a href="floorplan.html">VU19P floorplan<span class="desc">12 cycles · 4 SLRs</span></a>
+    <a href="fabric.html">Fabric / CLBs<span class="desc">one region at CLB level</span></a>
+  </nav>
+  <header>
+    <h1>[[144,12,12]] gross code decoder</h1>
+    <p class="subtitle">Bipartite structure of the Relay-BP decoding graph. 72 check nodes, 144 variable nodes, weight-6 checks. Based on arXiv:2510.21600.</p>
+    <p class="crosslink">See also: <a href="floorplan.html">floorplan.html</a> — VU19P floorplan view · <a href="fabric.html">fabric.html</a> — CLB-level fabric view</p>
+  </header>
+
+  <div class="controls">
+    <button id="play">Pause</button>
+    <button id="reset">Reset</button>
+    <label class="toggle">
+      <input type="checkbox" id="showEdges" checked>
+      <span>Show edges</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="autoRotate" checked>
+      <span>Auto-rotate</span>
+    </label>
+    <div class="readout">
+      <span class="label">Iteration</span><span id="iter" class="value">0</span>
+      <span class="label">Phase</span><span id="phase" class="value">CNU→VNU</span>
+      <span class="label">α</span><span id="alpha" class="value">0.500</span>
+    </div>
+  </div>
+
+  <div id="scene">
+    <div class="legend">
+      <div class="row"><span class="dot" style="background:#1D9E75; border-radius:50%;"></span>CNU (72 checks, weight 6)</div>
+      <div class="row"><span class="dot" style="background:#D85A30;"></span>VNU left — 72 qubits from A(x,y)</div>
+      <div class="row"><span class="dot" style="background:#7F77DD;"></span>VNU right — 72 qubits from B(x,y)</div>
+    </div>
+    <div class="hint">Drag to rotate · right-drag to pan · scroll to zoom at cursor</div>
+  </div>
+
+  <footer>
+    <p>
+      BB polynomials: <code>A = x³ + y + y²</code>, <code>B = y³ + x + x²</code> on the group Z<sub>12</sub> × Z<sub>6</sub>.
+      This visualization shows the code-level graph, not the full windowed decoding graph (which is ~12× larger for a W=12 memory experiment).
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="decoder.js"></script>
+</body>
+</html>

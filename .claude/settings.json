@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node --check \"c:\\\\Users\\\\rimpl\\\\vibe projects\\\\gross-code-decoder-3d\\\\gross-code-decoder-3d\\\\floorplan.js\")",
+      "PowerShell(node --check \"c:\\\\Users\\\\rimpl\\\\vibe projects\\\\gross-code-decoder-3d\\\\gross-code-decoder-3d\\\\fabric.js\")",
+      "PowerShell(node --check \"c:\\\\Users\\\\rimpl\\\\vibe projects\\\\gross-code-decoder-3d\\\\gross-code-decoder-3d\\\\timing.js\")",
+      "PowerShell(node --check \"c:\\\\Users\\\\rimpl\\\\vibe projects\\\\gross-code-decoder-3d\\\\gross-code-decoder-3d\\\\decoder.js\")",
+      "PowerShell(gh --version)",
+      "PowerShell(gh auth status)"
+    ]
+  }
+}

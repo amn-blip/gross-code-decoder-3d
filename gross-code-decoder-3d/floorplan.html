@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gross Code Relay-BP Decoder — VU19P Floorplan</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="sidenav">
+    <div class="nav-title">Views · top-down</div>
+    <a href="timing.html">Timing / window<span class="desc">control loop · latency budget</span></a>
+    <a href="index.html">Decoding graph<span class="desc">72 CNUs · 144 VNUs · edges</span></a>
+    <a href="floorplan.html" class="active">VU19P floorplan<span class="desc">12 cycles · 4 SLRs</span></a>
+    <a href="fabric.html">Fabric / CLBs<span class="desc">one region at CLB level</span></a>
+  </nav>
+  <header>
+    <h1>[[144,12,12]] gross code decoder — VU19P floorplan</h1>
+    <p class="subtitle">Placement of the windowed Relay-BP decoder across the 4 SLRs of an AMD VU19P. The 12 colored regions are the 12 syndrome cycles of the W=12 decoding window. Based on Figure 5 of arXiv:2510.21600.</p>
+    <p class="crosslink">See also: <a href="index.html">index.html</a> — 3D decoding-graph view · <a href="fabric.html">fabric.html</a> — CLB-level fabric view</p>
+  </header>
+
+  <div class="controls">
+    <button id="play">Pause</button>
+    <button id="reset">Reset</button>
+    <label class="toggle">
+      <input type="checkbox" id="showRouting" checked>
+      <span>Show routing</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="showMarkers" checked>
+      <span>Show unit markers</span>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="autoRotate">
+      <span>Auto-rotate</span>
+    </label>
+    <div class="readout">
+      <span class="label">Cycle</span><span id="cycle" class="value">0 / 11</span>
+      <span class="label">LUTs</span><span class="value">51.56%</span>
+      <span class="label">FFs</span><span class="value">6.62%</span>
+      <span class="label">BRAM</span><span class="value">1.37%</span>
+      <span class="label">Clock</span><span class="value">4 ns</span>
+      <span class="label">Iteration</span><span class="value">24 ns</span>
+    </div>
+  </div>
+
+  <div id="scene">
+    <div class="legend">
+      <div class="row">
+        <span class="swatches">
+          <span class="chip" style="background:#157A5A"></span><span class="chip" style="background:#1D9E75"></span><span class="chip" style="background:#5DCAA5"></span><span class="chip" style="background:#2E8FA3"></span><span class="chip" style="background:#A8431F"></span><span class="chip" style="background:#D85A30"></span><span class="chip" style="background:#E87F56"></span><span class="chip" style="background:#F0997B"></span><span class="chip" style="background:#5C54B8"></span><span class="chip" style="background:#7F77DD"></span><span class="chip" style="background:#9790E5"></span><span class="chip" style="background:#AFA9EC"></span>
+        </span>12 regions = 12 syndrome cycles (W=12)
+      </div>
+      <div class="row">Bright region = cycle currently processed</div>
+      <div class="row"><span class="dot" style="background:#0b0e14; border:1px solid #4a5568;"></span>Raised ridges = SLR boundaries (4 SLRs)</div>
+      <div class="row"><span class="dot" style="background:#1D9E75; border-radius:50%;"></span>CNU units (72 total, 6 per cycle)</div>
+      <div class="row"><span class="dot" style="background:#D85A30;"></span><span class="dot" style="background:#7F77DD;"></span>VNU units (144 total, 12 per cycle)</div>
+      <div class="row"><span class="dot" style="background:linear-gradient(90deg,#5DCAA5,transparent); height:2px;"></span>Routing arcs = SLR-crossing nets</div>
+    </div>
+    <div class="hint">Drag to rotate · right-drag to pan · scroll to zoom at cursor · click a region to jump to its cycle</div>
+  </div>
+
+  <footer>
+    <p>
+      This is IBM's VU19P floorplan for the full [[144,12,12]]-X decoder (paper Figure 5).
+      Aman's project targets VU9P and scopes to CNU + VNU only, so his eventual floorplan will look very different.
+    </p>
+    <p>
+      Full-decoder utilization (paper Table 1): <code>2,106,738 LUTs (51.56%)</code> — of which VNUs take 67.2% and CNUs 22.6% —
+      <code>540,767 FFs (6.62%)</code>, <code>14,052 LUTRAM (1.47%)</code>, <code>29.5 BRAM (1.37%)</code>,
+      <code>58.025 W</code>, <code>45 user pins</code>. 4 ns FPGA clock, 12 ns decoder cycle, 24 ns per BP iteration
+      (one CNU→VNU + one VNU→CNU decoder cycle).
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="floorplan.js"></script>
+</body>
+</html>
